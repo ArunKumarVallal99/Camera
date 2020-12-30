@@ -1,2 +1,2 @@
 # Screen Shots
-<img src="https://github.com/ArunKumarVallal99/Camera/blob/Video-Player/ScreenShots/Screenshot_1609237453.png" height='300'>
+<img src="https://github.com/ArunKumarVallal99/Camera/blob/Animation/ScreenShots/Animation_gif.gif" height='300'>
