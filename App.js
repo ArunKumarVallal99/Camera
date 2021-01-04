@@ -1,62 +1,90 @@
-import {View, Text, Animated, TouchableOpacity} from 'react-native';
+import {View, Text, Animated, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
 import React, { Component } from "react";
-
+import Icon  from 'react-native-vector-icons/MaterialIcons';
 
  class App extends Component {
-  
-  state={value:new Animated.ValueXY({x:0,y:0})};
+ 
+  state={
+    datas:[
+      {id:'1',title:'Veg Briyani',des:'dbjhdbadsnjdsa'},
+      {id:'2',title:'Pizzas',des:'dakhsakhsadasd'},
+      {id:'3',title:'Drink',des:'kjjhasdgasdasj'},
+      {id:'4',title:'Deserets',des:'gsadfsadjgsadkusd'},
 
-   moveBall=()=> {
-    Animated.timing(this.state.value,
-      {
-        toValue:{x:100,y:100},
-        duration:1000,
-        useNativeDriver:false,
-
-      }).start() 
+    ],
+    expand:false,
   };
-
-  bounce=()=>{
-    Animated.spring(this.state.value,{
-      toValue:{x:100,y:90},
-      bounciness:50,
-      useNativeDriver:false,
-    }).start()
+  isEnabled=()=>{
+    this.setState({expand:! this.state.expand});
   }
+  renderItems=({item})=>{
+    const expands= this.state.expand;
+    console.log(expands)
+    return(
+    <View style={styles.container}>
 
-  reset=()=>{
-    Animated.timing(this.state.value,{
-      toValue:{x:0,y:0},
-      useNativeDriver:false,
-      duration:1000,
-    }).start()
-  }
-  render() {
-    const Value=this.state.value;
-    return (
-      <View style={{flex:1}}>  
-        <Animated.View style={Value.getLayout()}>
-          <View
-          style={{
-              width:100,
-              height:100,
-              borderRadius:100/2,
-              backgroundColor:'blue',
-          }}/>   
-
-        </Animated.View>
-        <TouchableOpacity onPress={this.moveBall}>
-         <Text>HELOO</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.bounce}>
-         <Text>Bounce</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.reset}>
-         <Text>Reset</Text>
+      <View style={styles.itemContainer}>
+        <TouchableOpacity onPress={()=>this.isEnabled} style={styles.row}>
+         <Text style={styles.itemText}>{item.title}</Text>
+          <Icon name={this.state.expand ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} size={10} color='grey' />
         </TouchableOpacity>
       </View>
-    );
-  }
+      <View style={styles.parentHr}/>
+            {this.state.expand && (
+              <View style={styles.child}>
+                <Text>{item.des}</Text>    
+              </View>)
+            }
+    </View>
+    )
+  };
+  render(){
+    return(
+        <View style={styles.container}>
+            <FlatList 
+            data={this.state.datas}
+            renderItem={this.renderItems}
+            />
+        </View>
+      );
+    }
 }
+const styles=StyleSheet.create({
+  container:{
+   // backgroundColor:'green',
+   justifyContent:'center',
+  },
+  itemContainer:{
+    flexDirection:'row',
+    padding:10,
+    //elevation:5,
+    backgroundColor:'white',
+    borderRadius:10,
+    borderColor:'black',
+    marginBottom:5,
+    height:56,
+    paddingLeft:25,
+    paddingRight:18,
+    alignItems:'center',
+  },
+  row:{
+    flexDirection:'row',
+  },
+  itemText:{
+    width:310,
+    fontSize:14,
+    fontWeight:'bold',
+    color:'grey',
+  },
+  parentHr:{
+    height:1,
+    color: 'white',
+    width:'100%'
+  },
+  child:{
+  backgroundColor: 'grey',
+  padding:16,
+  },
+});
 
 export default App;
