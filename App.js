@@ -6,15 +6,17 @@ import Icon  from 'react-native-vector-icons/MaterialIcons';
   constructor(props) {
     super(props);
     this.state={
+
     datas:[
       {id:'1',title:'Veg Briyani',des:'Biryani also known as biriyani, biriani, birani or briyani, is a mixed rice dish with its origins among the Muslims of the Indian subcontinent. This dish is especially popular throughout the Indian subcontinent, as well as among the diaspora from the region. It is also prepared in other regions such as Iraqi Kurdistan.'
       ,isEnable:false},
-      {id:'2',title:'Pizzas',des:'dakhsakhsadasd',isEnable:false},
+      {id:'2',title:'Pizzas',des:'dakhsakhsadasd',isEnable:false,
+      pizaItems:[{key:"Chicken Dominator", value:false},{key:'Peri Peri Chicken', value:false}]},
+
       {id:'3',title:'Drink',des:'kjjhasdgasdasj',isEnable:false},
       {id:'4',title:'Deserets',des:'gsadfsadjgsadkusd',isEnable:false},
 
     ],  
-    //expand:false,
   };
   if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -27,11 +29,24 @@ import Icon  from 'react-native-vector-icons/MaterialIcons';
     target.isEnable=!target.isEnable;
     data[index]=target;
     this.setState({datas:data})
-    console.log(this.state.datas[index])    
+   // console.log(this.state.datas[index])    
+  }
+  onClick=(index)=>{
+    const temp = this.state.datas;
+    var mainIndex=0;
+    for(var i=0;i<4;i++)
+    {
+      if(temp[i].isEnable){
+         mainIndex=i;
+      }
+    }
+    console.log(mainIndex)
+    console.log(temp[mainIndex].pizaItems[index].value)
+    temp[mainIndex].pizaItems[index].value=!temp[mainIndex].pizaItems[index].value
+    this.setState({data: temp})
   }
   renderItems=({item,index})=>{
-    console.log(item.isEnable)
-    return(
+      return(
     <View style={styles.containers}>
 
       <View style={styles.itemContainer}>
@@ -42,8 +57,20 @@ import Icon  from 'react-native-vector-icons/MaterialIcons';
       </View>
             <View style={styles.desView}/>
              {item.isEnable && (
-              <View style={styles.desText}>
-                <Text>{item.des}</Text>    
+             <View style={styles.desText}>
+               <FlatList
+               data={item.pizaItems}
+               renderItem={({item, index}) => 
+               <View>
+                   <TouchableOpacity style={[styles.childRow, styles.button, item.value ? styles.btnActive : styles.btnInActive]} onPress={()=>this.onClick(index)}>
+                       <Text style={styles.desText} >{item.key}</Text>
+                       <Icon name={'check-circle'} size={24} color={ item.value ? 'green' :  'white'} style={styles.icons} />
+                   </TouchableOpacity>
+                   {/* <View style={styles.des}/> */}
+               </View>}
+               />
+          
+                 <Text>{item.des}</Text>   
               </View>)
             }
     </View>
@@ -87,6 +114,28 @@ const styles=StyleSheet.create({
     fontSize:14,
     fontWeight:'bold',
     color:'grey',
+  },
+  childRow:{
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    backgroundColor: 'grey',
+},
+  icons:{
+    paddingTop:15,
+  },
+  itemActive:{
+    fontSize: 12,
+    color: 'green',
+  },
+  itemInActive:{
+    fontSize: 12,
+    color:'black',
+  },
+  btnActive:{
+    borderColor: 'green',
+  },
+  btnInActive:{
+    borderColor: 'green',
   },
   desView:{
     height:1,
