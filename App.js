@@ -1,22 +1,69 @@
 import {View, Text, Animated, TouchableOpacity, FlatList, StyleSheet,ScrollView,Picker, TextInput, Modal} from 'react-native';
 import React, { Component } from "react";
-import Icon  from 'react-native-vector-icons/MaterialIcons';
+import Icon  from 'react-native-vector-icons/Feather';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 class App extends Component {
   constructor(props){
     super(props);
+    const current_date=new Date();
+    const current_day= new Date().getDate();
+    const current_month= new Date().getMonth();
+    const current_year = new Date().getFullYear();
+    // var datees = moment()
+    //   .utcOffset('+05:30')
+    //   .format('YYYY-MM-DD');
     this.state={
       casualLeave:12,
       sickLeave:12,
       leaveType:'Select Leave Type',
       isDurationFromEnabled:false,
-      date:[{dateString: "2012-03-14", day: 14, month: 3, timestamp: 1331683200000, year: 2012}],
+      date:[{dateString: current_date, day: current_day, month:current_month+1, timestamp: 1331683200000, year: current_year}],
       isDurationToEnabled:false,
       dateTo:[{dateString: "2012-03-14", day: 14, month: 3, timestamp: 1331683200000, year: 2012}],
+      isHalfDayEnabled:false,
+      isMorningEnabled:false,
+      isAfternoonEnabled:false,
+      reasonValue:'',
     };
+    
   }  
 
+
+  morningEnable=()=>{
+    if(this.state.isMorningEnabled)
+      this.setState({isAfternoonEnabled:true,isMorningEnabled:false})
+    else
+      this.setState({isMorningEnabled:true,isAfternoonEnabled:false})
+  };
+  afternoonEnable=()=>{
+    if(this.state.isAfternoonEnabled)
+      this.setState({isMorningEnabled:true,isAfternoonEnabled:false})
+    else
+      this.setState({isAfternoonEnabled:true,isMorningEnabled:false})
+
+  };
+  validate=()=>{
+    // console.log(this.state.leaveType)
+    // console.log(this.state.dateTo)
+    // console.log(this.state.reasonValue)
+    if(this.state.leaveType== 'default' || this.state.leaveType=='Select Leave Type')
+      alert('Please select the Leave Type')
+    if(this.state.isHalfDayEnabled){
+      if(!this.state.isMorningEnabled && !this.state.isAfternoonEnabled)
+        alert("Select the Half Day")
+    }
+    if(this.state.reasonValue=='')
+      alert("Fill the Reason Value")
+    else{ 
+      if(this.state.leaveType=='sick')
+        this.setState({sickLeave:this.state.sickLeave-1})
+      if(this.state.leaveType=='casual')
+        this.setState({casualLeave:this.state.casualLeave-1}) 
+      alert('succesfull login')
+      }
+      
+  }
   render(){
     return(
       <View style={styles.container}>
@@ -41,8 +88,8 @@ class App extends Component {
           <Text style={styles.durationText}> Duration From </Text>
           <View style={styles.pickerView}> 
             <TextInput style={styles.durationFromInput} placeholder='20/12/2020' value={this.state.date.dateString}/>
-            <Icon name='calendar-today' style={styles.CalendarIcon}
-            size={20} color='blue' 
+            <Icon name='calendar' style={styles.CalendarIcon}
+            size={30} color='blue' 
             onPress={()=>this.setState({isDurationFromEnabled:true})}/>
            
             <Modal style={styles.modalDurationForm}
@@ -51,10 +98,11 @@ class App extends Component {
               <View style={styles.modalDurationForm}>
               <Calendar
               style={styles.calendarDetails}
-              current={'2012-03-01'}
+              current={new Date().getDate}
               hideExtraDays={true}
-              onDayPress={(day) => {console.log('selected day', day);this.setState({isDurationFromEnabled:false,date:day})}}
-              maxDate={'2012-05-30'}
+              onDayPress={(day) => {console.log('selected day', day.dateString);this.setState({isDurationFromEnabled:false,date:day})}}
+              maxDate={'2025-05-30'}
+              minDate={new Date().getDate}
               showWeekNumbers={true}
               theme={{
                 backgroundColor: '#ffffff',
@@ -83,8 +131,8 @@ class App extends Component {
           <Text style={styles.durationText}> Duration To </Text>
           <View style={styles.pickerView}> 
             <TextInput style={styles.durationFromInput} placeholder='20/12/2020' value={this.state.dateTo.dateString}/>
-            <Icon name='calendar-today' style={styles.CalendarIcon}
-            size={20} color='blue' 
+            <Icon name='calendar' style={styles.CalendarIcon}
+            size={30} color='blue' 
             onPress={()=>this.setState({isDurationToEnabled:true})}/>
            
             <Modal style={styles.modalDurationForm}
@@ -93,10 +141,11 @@ class App extends Component {
               <View style={styles.modalDurationForm}>
               <Calendar
               style={styles.calendarDetails}
-              current={'2012-03-01'}
+              current={new Date().getDate}
               hideExtraDays={true}
               onDayPress={(day) => {console.log('selected day', day);this.setState({isDurationToEnabled:false,dateTo:day});}}
-              maxDate={'2012-05-30'}
+              maxDate={'2025-05-30'}
+              minDate={new Date().getDate}
               showWeekNumbers={true}
               theme={{
                 backgroundColor: '#ffffff',
@@ -121,7 +170,31 @@ class App extends Component {
               </View>
             </Modal>
           </View>
+          
+          <View style={styles.halfDayView}>
+          <Icon name={this.state.isHalfDayEnabled ? 'check-circle' :  'circle'} size={24} color={ this.state.isHalfDayEnabled ? 'blue' :  'black'} style={styles.halfDayIcon} onPress={()=>this.setState({isHalfDayEnabled:!this.state.isHalfDayEnabled})}/>
+          <Text style={styles.halfDayText}>Half Day</Text>
+          </View>
+          
+          {this.state.isHalfDayEnabled &&<View style={styles.morningView}>
 
+          <Icon name={this.state.isMorningEnabled ? 'check-circle' :  'circle'} size={24} color={ this.state.isMorningEnabled ? 'blue' :  'black'} style={styles.halfDayIcon} onPress={this.morningEnable}/>
+          <Text style={styles.halfDayText}>Morning</Text>
+
+          <Icon name={this.state.isAfternoonEnabled ? 'check-circle' :  'circle'} size={24} color={ this.state.isAfternoonEnabled ? 'blue' :  'black'} style={styles.halfDayIcon} onPress={this.afternoonEnable}/>
+          <Text style={styles.halfDayText}>Afternoon</Text>
+          
+          </View>}
+
+          <View style={styles.reasonView}>
+              <Text style={styles.reasonText}>Reason </Text>
+              <TextInput style={styles.reasonTextInput} multiline={true} value={this.state.reasonValue}
+              onChangeText={(text)=>this.setState({reasonValue:text})}/>
+          </View>
+
+          <TouchableOpacity style={styles.submitContainer} onPress={this.validate}>
+            <Text style={styles.submitText}>Submit</Text>
+          </TouchableOpacity>
 
         </View>
       </View>
@@ -141,6 +214,7 @@ const styles= StyleSheet.create({
   },
   insideContainer:{
     elevation:5,
+    borderRadius:10,
     backgroundColor:'white',
     width:350,
     padding:20,
@@ -162,6 +236,7 @@ const styles= StyleSheet.create({
   },
   pickerView:{
     flexDirection:'row',
+    marginBottom:10,
   },
   pickerText:{
     marginRight:20,
@@ -182,10 +257,13 @@ const styles= StyleSheet.create({
     borderEndWidth:2,
     borderColor:'grey',
     height:40,
-    width:110,
+    width:250,
+    borderRadius:10,
+    borderWidth:2,
   },
   CalendarIcon:{
-    marginTop:10,
+    marginLeft:10,
+    //marginTop:10,
   },
   modalDurationForm:{
     justifyContent:'center',
@@ -212,5 +290,44 @@ const styles= StyleSheet.create({
     borderColor: 'gray',
     //height: 200,
   },
+  halfDayView:{
+    flexDirection:'row',
+    marginBottom:10,
+  },
+  halfDayText:{
+    fontSize:18,
+    marginLeft:10,
+    marginRight:20,
+  },
+  halfDayIcon:{
+    
+  },
+  morningView:{
+    flexDirection:'row',
+    marginBottom:10,
+  },
+  reasonView:{
+    marginBottom:10,
+  },
+  reasonText:{
+    fontSize:18,
+  },
+  reasonTextInput:{
+    borderWidth:2,
+    borderColor:'blue',
+    borderRadius:10,
+    width:300,
+  },
+  submitContainer:{
+    justifyContent:'center',
+    elevation:5,
+    backgroundColor:'pink',
+    height:20,
+    alignItems:'center',
+    width:100,
+    marginLeft:100,
+    borderRadius:10,
+  },
+
 });
 export default App;
