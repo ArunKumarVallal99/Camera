@@ -55,13 +55,12 @@ class App extends Component {
     }
     if(this.state.reasonValue=='')
       alert("Fill the Reason Value")
-    else{ 
-      if(this.state.leaveType=='sick')
+    if(this.state.leaveType=='sick')
         this.setState({sickLeave:this.state.sickLeave-1})
-      if(this.state.leaveType=='casual')
+    else if(this.state.leaveType=='casual')
         this.setState({casualLeave:this.state.casualLeave-1}) 
-      alert('succesfull login')
-      }
+    else
+        alert('succesfull login')
       
   }
   render(){
