@@ -1,6 +1,5 @@
-import {View, Text,TouchableOpacity, StyleSheet,Picker, TextInput, Modal} from 'react-native';
+import {View} from 'react-native';
 import React, { Component } from "react";
-import Icon  from 'react-native-vector-icons/Feather';
 import {Calendar} from 'react-native-calendars';
 
 class PermissionApply extends Component {
