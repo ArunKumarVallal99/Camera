@@ -17,6 +17,20 @@ class PermissionApply extends Component {
         descriptionValue:'',
     };
     }
+
+    validation=()=>{
+        if(this.state.timeValue=='default'||this.state.timeValue=='')
+            alert('select Time')
+        else if(this.state.totalHours!='01:00:00'){
+            alert('Not mentioned')
+        }
+        else if (this.state.descriptionValue==''){
+            alert('Enter the Descrpition')
+        }
+        else{
+            alert('Successful Login')
+        }
+    };
     render(){
         return(
             <View style={styles.container}>
@@ -27,10 +41,9 @@ class PermissionApply extends Component {
                         <Icon name='calendar' style={styles.CalendarIcon}
                         size={30} color='blue' 
                         onPress={()=>this.setState({isDateEnabled:true})}/>
-                    
                         <Modal style={styles.modalDate}
                         visible={this.state.isDateEnabled}
-                        transparent={true}   >            
+                        transparent={true}>            
                         <View style={styles.modalDate}>
                             <Calendar
                             style={styles.calendarDetails}
@@ -123,15 +136,15 @@ class PermissionApply extends Component {
                     
                     <View style={styles.hoursView}>
                         <Text style={styles.hoursText}>Total Hours</Text>
-                        <TextInput style={styles.hoursInput} value={this.state.totalHours} />
+                        <TextInput style={styles.hoursInput} value={this.state.totalHours} onChangeText={(text)=>this.setState({totalHours:text})}/>
                     </View>
                         
                     <View style={styles.descriptionView}>
                         <Text style={styles.descriptionText}>Description</Text>
-                        <TextInput style={styles.descriptionInput} value={this.state.descriptionValue} multiline={true} />
+                        <TextInput style={styles.descriptionInput} value={this.state.descriptionValue} multiline={true} onChangeText={(text)=>this.setState({descriptionValue:text})} />
                     </View>
 
-                    <TouchableOpacity style={styles.submitContainer} onPress={this.validate}>
+                    <TouchableOpacity style={styles.submitContainer} onPress={this.validation}>
                     <Text style={styles.submitText}>Submit</Text>
                     </TouchableOpacity>
 
@@ -231,7 +244,7 @@ const styles = StyleSheet.create({
     descriptionInput:{
         borderEndWidth:2,
         borderColor:'blue',
-        height:40,
+        height:60,
         width:250,
         borderRadius:10,
         borderWidth:2,
