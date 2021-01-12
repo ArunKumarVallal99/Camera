@@ -1,2 +1,2 @@
 # Screen Shots
-<img src="https://github.com/ArunKumarVallal99/Camera/blob/Leave-Apply/ScreenShots/premission.png" height='300'>
+<img src="https://github.com/ArunKumarVallal99/Camera/blob/Leave-Apply/ScreenShots/permission.png" height='300'>
