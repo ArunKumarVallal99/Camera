@@ -1,7 +1,9 @@
-import {View, Text,TouchableOpacity, StyleSheet,Picker, TextInput, Modal} from 'react-native';
+import {View, Text,TouchableOpacity, StyleSheet,Picker, TextInput, Modal, ScrollView} from 'react-native';
 import React, { Component } from "react";
 import Icon  from 'react-native-vector-icons/Feather';
 import {Calendar} from 'react-native-calendars';
+import CalenderView from './CalenderView';
+
 class PermissionApply extends Component {
     constructor(props){
       super(props);
@@ -33,6 +35,7 @@ class PermissionApply extends Component {
     };
     render(){
         return(
+            <ScrollView>
             <View style={styles.container}>
                 <View style={styles.insideContainer}>
                     <Text style={styles.dateText}> Date </Text>
@@ -45,7 +48,8 @@ class PermissionApply extends Component {
                         visible={this.state.isDateEnabled}
                         transparent={true}>            
                         <View style={styles.modalDate}>
-                            <Calendar
+                        <CalenderView date={this.state.isDateEnabled}/>
+                            {/* <Calendar
                             style={styles.calendarDetails}
                             current={new Date().getDate}
                             hideExtraDays={true}
@@ -72,7 +76,7 @@ class PermissionApply extends Component {
                                 textMonthFontSize: 14,
                                 textDayHeaderFontSize: 14,
                             }}
-                            enableSwipeMonths={true}/>
+                            enableSwipeMonths={true}/> */}
                         </View>
                         </Modal>
                     </View>
@@ -147,9 +151,12 @@ class PermissionApply extends Component {
                     <TouchableOpacity style={styles.submitContainer} onPress={this.validation}>
                     <Text style={styles.submitText}>Submit</Text>
                     </TouchableOpacity>
+                    
+
 
                 </View>
             </View>
+            </ScrollView>
 
         )
     }

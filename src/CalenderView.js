@@ -1,16 +1,21 @@
-import {View} from 'react-native';
+import {View,StyleSheet} from 'react-native';
 import React, { Component } from "react";
 import {Calendar} from 'react-native-calendars';
 
-class PermissionApply extends Component {
+class CalenderView extends Component {
+
+    constructor(props){
+        super(props);
+
+    }
     render(){
         return(
-           <View style={styles.modalDate}>
+           <View style={styles.container}>
                 <Calendar
                 style={styles.calendarDetails}
                 current={new Date().getDate}
                 hideExtraDays={true}
-                onDayPress={(day) => {console.log('selected day', day);this.setState({isDateEnabled:false,dateApplied:day});}}
+                onDayPress={(day) => {console.log('selected day', day);}}
                 maxDate={'2025-05-30'}
                 minDate={new Date().getDate}
                 showWeekNumbers={true}
@@ -38,3 +43,31 @@ class PermissionApply extends Component {
     )
     }
 }
+const styles=StyleSheet.create({
+    container:{
+        justifyContent:'center',
+        alignItems:'center',
+        // elevation:4,
+        // height:150,
+        // marginTop:250,
+        // marginLeft:20,
+        // marginRight:20,
+        // backgroundColor:'white',
+        // flex: .8,
+        // borderRadius:10,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // padding:10,
+    },
+    calendarDetails:{
+        borderWidth: 1,
+        borderColor: 'blue',
+        //height: 200,
+    },
+});
+export default CalenderView;

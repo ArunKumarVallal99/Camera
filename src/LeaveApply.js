@@ -2,6 +2,7 @@ import {View, Text,TouchableOpacity, StyleSheet,Picker, TextInput, Modal} from '
 import React, { Component } from "react";
 import Icon  from 'react-native-vector-icons/Feather';
 import {Calendar} from 'react-native-calendars';
+import CalenderView from './CalenderView';
 
 class LeaveApply extends Component {
   constructor(props){
@@ -138,7 +139,8 @@ class LeaveApply extends Component {
             visible={this.state.isDurationToEnabled}
             transparent={true}   >            
               <View style={styles.modalDurationForm}>
-              <Calendar
+                <CalenderView/>
+              {/* <Calendar
               style={styles.calendarDetails}
               current={new Date().getDate}
               hideExtraDays={true}
@@ -165,7 +167,7 @@ class LeaveApply extends Component {
                 textMonthFontSize: 14,
                 textDayHeaderFontSize: 14,
               }}
-              enableSwipeMonths={true}/>
+              enableSwipeMonths={true}/> */}
               </View>
             </Modal>
           </View>

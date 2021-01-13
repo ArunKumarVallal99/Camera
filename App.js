@@ -4,6 +4,7 @@ import Icon  from 'react-native-vector-icons/Feather';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import LeaveApply from './src/LeaveApply';
 import PermissionApply from './src/PermissionApply';
+import CalenderView from './src/CalenderView';
 
 class App extends Component {
 render(){
